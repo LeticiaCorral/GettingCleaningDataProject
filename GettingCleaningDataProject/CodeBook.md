@@ -1,118 +1,71 @@
-# Tenemos los siguientes ficheros:
-# 1. Fichero de usuarios
-# 2. Fichero de actividades
-# 3. Fichero con la propiedad medida en cada registro. Tenemos para test y train
-# 4. Fichero con el vector de mediciones.Tenemos para test y train
+We hav 30 subjects id, divided in two groups: test and train.
+21 subjects in train group
+9 subjects in test group
 
-# planteamos un data set con las siguientes columnas:
-# usuario: id de usuario
-# grupo: test/train dependiendo del grupo en el que se encontrara el usuario
-# actividad que se quiere medir. se sugiere dejar sólo el nombre de la actividad
-# descripción de la actividad. 
+We have 5 activities: 
+1 WALKING
+2 WALKING_UPSTAIRS
+3 WALKING_DOWNSTAIRS
+4 SITTING
+5 STANDING
+6 LAYING
+
+We have 561 features. The selected features are = 79
+
+tBodyAcc-mean()-X/Y/Z --> Mean of the time variable for body acceleration on X/Y/Z axis. 
+tBodyAcc-std()-X/Y/Z --> Standard Deviation of the time variable for body acceleration on X/Y/Z axis  
+tGravityAcc-mean()-X/Y/Z --> Mean of the time variable for gravity acceleration on X/Y/Z axis 	 
+tGravityAcc-std()-X/Y/Z	--> Standard Deviation of the time variable for body acceleration on X/Y/Z axis   
+tBodyAccJerk-mean()-X/Y/Z --> Mean of Jerk signals derived from acceleration on X/Y/Z axis
+tBodyAccJerk-std()-X/Y/Z --> Standard Deviation	of Jerk signals derived from acceleration on X/Y/Z axis 
+tBodyGyro-mean()-X/Y/Z--> Mean of Angular signals on X/Y/Z axis 
+tBodyGyro-std()-X/Y/Z --> Standard Deviation of Angular signals on X/Y/Z axis 
+tBodyGyroJerk-mean()-X/Y/Z --> Mean of Jerk signals derived from angular velocity on X/Y/Z axis
+tBodyGyroJerk-std()-X/Y/Z --> Standard Deviation of Jerk signals derived from angular velocity on X/Y/Z axis
+ 
+tBodyAccMag-mean() --> Mean of the magnitude body Acceleration 
+tBodyAccMag-std() --> Standard Deviation of the magnitude for body Acceleration 
+tGravityAccMag-mean() --> Mean of the magnitude for gravity Acceleration 
+tGravityAccMag-std() --> Standard Deviation of the magnitude for gravity Acceleration 
+tBodyAccJerkMag-mean() --> Mean of Time Variable magnitude for jerk signals from Acceleration 
+tBodyAccJerkMag-std() --> Standard Deviation of the time variable for magnitude of jerk signals from Acceleration 
+tBodyGyroMag-mean() --> Mean of the magnitude of the Angular velocity time variable
+tBodyGyroMag-std() --> Standard Deviation of the magnitude of the Angular velocity time variable
+tBodyGyroJerkMag-mean()	--> Mean of Time Variable magnitude for angular velocity jerk signals 
+tBodyGyroJerkMag-std() --> Standard Deviation of Time Variable magnitude for angular velocity jerk signals 
+
+fBodyAcc-mean()-X/Y/Z --> Mean for frequency variable for acceleration on X/Y/Z axis 
+fBodyAcc-std()-X/Y/Z --> Standard Deviation for frequency variable for acceleration on X/Y/Z axis 
+fBodyAcc-meanFreq()-X/Y/Z --> Mean for frequency variable for acceleration on X/Y/Z axis 
+fBodyAccJerk-mean()-X/Y/Z --> Mean for frequency variable jerk signals for acceleration on X/Y/Z axis
+fBodyAccJerk-std()-X --> Standard Deviation for frequency variable jerk signals for acceleration on X/Y/Z axis 
+fBodyAccJerk-meanFreq()-X/Y/Z --> Mean of the jerk signals for the frequency variable when accelerating on X/Y/Z axis 
+fBodyGyro-mean()-X/Y/Z --> Mean of the for the frequency variable for angular velocity on X/Y/Z axis 
+fBodyGyro-std()-X/Y/Z --> Standard Deviation of the for the frequency variable for angular velocity on X/Y/Z axis 
+fBodyGyro-meanFreq()-X/Y/Z --> Mean of the for the frequency variable for angular velocity on X/Y/Z axis 
+
+fBodyAccMag-mean() --> Mean for	frequency variable of the magnitude for body Acceleration 
+fBodyAccMag-std() --> Standard Deviation for frequency variable of the magnitude for body Acceleration
+fBodyAccMag-meanFreq() --> Mean for the frequency variable of the magnitude for acceleration 
+fBodyBodyAccJerkMag-mean() --> Mean of Frequency Variable magnitude for jerk signals from Acceleration 
+fBodyBodyAccJerkMag-std() --> Standard Deviation of Frequency Variable magnitude for jerk signals from Acceleration 
+
+fBodyBodyAccJerkMag-meanFreq() --> Mean of Frequency Variable magnitude for jerk signals from Acceleration 
+fBodyBodyGyroMag-mean()	--> Mean of the magnitude of the Angular velocity frequency variable
+fBodyBodyGyroMag-std() --> Standard Deviation of the magnitude of the Angular velocity frequency variable
+
+fBodyBodyGyroMag-meanFreq()	--> Mean of the magnitude of the Angular velocity frequency variable
+fBodyBodyGyroJerkMag-mean()	--> Mean of Frequency Variable magnitude for angular velocity jerk signals 
+fBodyBodyGyroJerkMag-std() --> Standard Deviation of Frequency Variable magnitude for angular velocity jerk signals 
+fBodyBodyGyroJerkMag-meanFreq()	--> Mean of Frequency Variable magnitude for angular velocity jerk signals 
 
 
-# original features 
-1 tBodyAcc-mean()-X --> 
-2 tBodyAcc-mean()-Y
-3 tBodyAcc-mean()-Z
-4 tBodyAcc-std()-X
-5 tBodyAcc-std()-Y
-41 tGravityAcc-mean()-X
-42 tGravityAcc-mean()-Y
-43 tGravityAcc-mean()-Z
-44 tGravityAcc-std()-X
-45 tGravityAcc-std()-Y
-46 tGravityAcc-std()-Z
-81 tBodyAccJerk-mean()-X
-82 tBodyAccJerk-mean()-Y
-83 tBodyAccJerk-mean()-Z
-84 tBodyAccJerk-std()-X
-85 tBodyAccJerk-std()-Y
-86 tBodyAccJerk-std()-Z
-121 tBodyGyro-mean()-X
-122 tBodyGyro-mean()-Y
-123 tBodyGyro-mean()-Z
-124 tBodyGyro-std()-X
-125 tBodyGyro-std()-Y
-126 tBodyGyro-std()-Z
-161 tBodyGyroJerk-mean()-X
-162 tBodyGyroJerk-mean()-Y
-163 tBodyGyroJerk-mean()-Z
-164 tBodyGyroJerk-std()-X
-165 tBodyGyroJerk-std()-Y
-166 tBodyGyroJerk-std()-Z
-201 tBodyAccMag-mean()
-202 tBodyAccMag-std()
-214 tGravityAccMag-mean()
-215 tGravityAccMag-std()
-227 tBodyAccJerkMag-mean()
-228 tBodyAccJerkMag-std()
-240 tBodyGyroMag-mean()
-241 tBodyGyroMag-std()
-253 tBodyGyroJerkMag-mean()
-254 tBodyGyroJerkMag-std()
-266 fBodyAcc-mean()-X
-267 fBodyAcc-mean()-Y
-268 fBodyAcc-mean()-Z
-269 fBodyAcc-std()-X
-270 fBodyAcc-std()-Y
-271 fBodyAcc-std()-Z
-345 fBodyAccJerk-mean()-X
-346 fBodyAccJerk-mean()-Y
-347 fBodyAccJerk-mean()-Z
-348 fBodyAccJerk-std()-X
-349 fBodyAccJerk-std()-Y
-350 fBodyAccJerk-std()-Z
-424 fBodyGyro-mean()-X
-425 fBodyGyro-mean()-Y
-426 fBodyGyro-mean()-Z
-427 fBodyGyro-std()-X
-428 fBodyGyro-std()-Y
-429 fBodyGyro-std()-Z
-503 fBodyAccMag-mean()
-504 fBodyAccMag-std()
-516 fBodyBodyAccJerkMag-mean()
-517 fBodyBodyAccJerkMag-std()
-529 fBodyBodyGyroMag-mean()
-530 fBodyBodyGyroMag-std()
-542 fBodyBodyGyroJerkMag-mean()
-543 fBodyBodyGyroJerkMag-std()
-555 angle(tBodyAccMean,gravity)
-556 angle(tBodyAccJerkMean),gravityMean)
-557 angle(tBodyGyroMean,gravityMean)
-558 angle(tBodyGyroJerkMean,gravityMean)
-559 angle(X,gravityMean)
-560 angle(Y,gravityMean)
-561 angle(Z,gravityMean)
+We have 2947 observations in the test group and 7352 in the train group
 
-tBodyAcc-XYZ --> Body acceleration signal time
-tGravityAcc-XYZ --> Gravity acceleration signal time
-tBodyAccJerk-XYZ --> Body linear acceleration Jerk signal time
-tBodyGyro-XYZ --> angular velocity signal time
-tBodyGyroJerk-XYZ --> angular velocity Jerk signal time
-tBodyAccMag --> Body acceleration signal Euclidean norm
-tGravityAccMag -->  Gravity acceleration signal Euclidean norm
-tBodyAccJerkMag --> Body acceleration Jerk signal Euclidean norm
-tBodyGyroMag --> angular velocity signal Euclidean norm
-tBodyGyroJerkMag --> angular velocity Jerk signal Euclidean norm
-fBodyAcc-XYZ --> Fast Fourier Transform of Body acceleration signal time
-fBodyAccJerk-XYZ --> Fast Fourier Transform of Body linear acceleration Jerk signal time
-fBodyGyro-XYZ --> Fast Fourier Transform of angular velocity signal time
-fBodyAccMag --> Fast Fourier Transform of Body acceleration signal Euclidean norm
-fBodyAccJerkMag --> Fast Fourier Transform of Body acceleration Jerk signal Euclidean norm
-fBodyGyroMag --> Fast Fourier Transform of angular velocity signal Euclidean norm
-fBodyGyroJerkMag --> Fast Fourier Transform of angular velocity Jerk signal Euclidean norm
+The result data set will have the columns:
+subject --> volunteer id
+Group --> Subject Group: Test or Train
+activityname --> Activity Name
+Features --> The features described above
 
-# atributes to add to final features 
-medida: podrá tener los valores BodyAcc, BodyGyro o Gravity
-Jerk: Yes/NO indicando si se ha aplicado Jerk signal
-Mag: Yes/NO indicando si se ha aplicado Euclidean norm
-Medicion: Time/Frecuency. será Frecuency cuando sehaya aplicado  Fast Fourier Transform
-Eje: X/Y/Z/NA si esa medida no está separada por ejes
-Operacion: Media o Desviacion.
-Valor: Valor de la medición
-
-Generated Files
-resultado.txt:tidy data
-resultado_average.txt: mean of the value column, for each subject and each activity
-
+Finally, we will have a second data set with the average features for each subject and activity

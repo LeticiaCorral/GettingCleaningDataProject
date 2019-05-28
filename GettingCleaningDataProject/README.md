@@ -1,34 +1,66 @@
-# Tenemos los siguientes ficheros:
-# 1. Fichero de usuarios
-# 2. Fichero de actividades
-# 3. Fichero con la propiedad medida en cada registro. Tenemos para test y train
-# 4. Fichero con el vector de mediciones.Tenemos para test y train
+The purpose of the project is studying the info and the files from "Human Activity Recognition Using Smartphones" and summarize the data in one file with the relevant information.  
 
-# planteamos un data set con las siguientes columnas:
-# usuario: id de usuario
-# grupo: test/train dependiendo del grupo en el que se encontrara el usuario
-# actividad que se quiere medir. se sugiere dejar sólo el nombre de la actividad
-# feature: de los valores originales de features: BodyAcc, BodyGyro y Gravity
-# cada una de esas features cuenta con algunos atributos,que serán:
-Jerk: Yes/NO indicando si se ha aplicado Jerk signal
-Mag: Yes/NO indicando si se ha aplicado Euclidean norm
-Medicion: Time/Frecuency. será Frecuency cuando sehaya aplicado  Fast Fourier Transform
-Eje: X/Y/Z/NA si esa medida no está separada por ejes
-Operacion: Media o Desviacion.
+To elaborate this data set we have the files:
+- activity_labels.txt: Contains identifiers and names of the activities
+- features.txt: Contains identifiers and names of the features
+- two groups of observations: test and train. For each group we have:
+		- subject.txt (subject_test.txt and subject_train.txt respectively): Contains the identifier of the volunteer in the test or train group, for each observation
+		- y.txt (y_test.txt and y_train.txt respectively): Contains the identifier of the activity for each observation
+		- x.txt (x_test.txt and x_train.txt respectively): Contains the observations. There are one column for each feature of the observation.
+		
+The purpose is create a file with the volunteer id, the volunteer group (test or train), the activity name and the feaures referring to means and typical deviations
 
-# en el script, se han seleccionado las columnas, del fichero features, que hacen referencia a medias o desviaciones típicas, quedando un vector con los elementos
-(1, 2, 3, 4, 5, 41, 42, 43, 44, 45, 46, 81, 82, 83, 84, 85, 86, 121, 122, 123, 124, 125, 126, 161, 162, 163, 164, 165, 166, 201, 202, 214, 215, 227, 228, 240, 241, 253, 254, 266, 267, 268, 269, 270, 271, 345, 346, 347, 348, 349, 350, 424, 425, 426, 427, 428, 429, 503, 504, 516, 517, 529, 530, 542, 543)
- 
-# se recuperan las etiquetas de cada uno de esos elementos y se extraen las propiedades citadas arriba, de esas features.
-# se ha construido la funcion etiquetas_add_features para tratar cada uno de esos atributos.
+Packages used: dplyr, reshape2
 
-# una vez leido el fichero con todas las mediciones, se han transformado esas columnas, en nuevas filas, haciendo gather.
-# después, se han relacionado esas filas, con los features originales, con las features finales y sus atributos.
+Reading activities configuration file
 
-# Finalmente, se han obtenido las medias que nos piden en el punto 5 del proyecto.
+	read.table("UCI HAR Dataset/activity_labels.txt", header = FALSE, sep= " ")
+	
+Reading features configuration file. We select mean and std features. (id and names)
 
+	read.table("UCI HAR Dataset/features.txt", header = FALSE, sep= " ")
+	grep(".*mean.*|.*std.*", df_features[,2])
+	
+Reading subject files (test and train) to get the subject in each observation. In the result, we add a column with the group (test or train)
 
-Generated Files
-resultado.txt:tidy data
-resultado_average.txt: mean of the value column, for each subject and each activity
+	read.table("UCI HAR Dataset/test/subject_test.txt", header = FALSE, sep= " ")
+	mutate(df_subject_test, group = "test")
+	
+	read.table("UCI HAR Dataset/train/subject_train.txt", header = FALSE, sep= " ")
+	mutate(df_subject_train, group = "train")
+	
+Reading activities-observation file (test and train) to get the activity id in each observation
 
+	read.table("UCI HAR Dataset/test/y_test.txt", header = FALSE, sep= " ")
+	read.table("UCI HAR Dataset/train/y_train.txt", header = FALSE, sep= " ")
+	
+Reading features-observation file (test and train) to get the measures for each feature and observation. We don't read all columns. We select columns which number column is in the selected features (mean and std features)
+
+	read.table("UCI HAR Dataset/test/x_test.txt", header = FALSE)
+	df_measures_test[, v_featuresSelected]
+	
+	read.table("UCI HAR Dataset/train/x_train.txt", header = FALSE)
+	df_measures_train[, v_featuresSelected]
+
+For the result data frame with the observations, we add subject, group subject, activity id and activity name. We create a factor with activity names
+We put the name of the column according to the selected features.
+
+	factor(df_activity_row_test$activityid, levels = df_activity[,1], labels = df_activity[,2])
+	factor(df_activity_row_train$activityid, levels = df_activity[,1], labels = df_activity[,2])
+
+	cbind(df_subject_test, df_activity_row_test, df_measures_test2)
+	cbind(df_subject_train, df_activity_row_train, df_measures_train2)
+
+Merge test and train info
+	
+	rbind(df_test, df_train)
+	
+Write result file, resultDataSet.txt
+
+	write.table(allData, "resultDataSet.txt", sep=" ", row.names = FALSE, quote = FALSE)
+
+To get the mean of each feature columns, save the result in resultAverage.txt
+
+	melt(allData, id = c("subject", "group", "activityid"))
+	dcast(mym, subject + group + activityid ~ variable, mean)
+	write.table(allDataAverage, "resultAverage.txt", sep=" ", row.names = FALSE, quote = FALSE)
